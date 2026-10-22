@@ -2,6 +2,7 @@ package jp.co.jc21ps.activity_management.controller;
 
 import java.util.Locale;
 
+import jp.co.jc21ps.activity_management.service.JoinApprovalService;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -25,15 +26,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/registerActivity")
 public class RegisterActivityController {
 
+    private final JoinApprovalService joinApprovalService;
     private final RegisterActivityService registerActivityService;
     private final MessageSource messageSource;
     private final CommonService commonService;
 
     public RegisterActivityController(RegisterActivityService registerActivityService, MessageSource messageSource,
-            CommonService commonService) {
+            CommonService commonService, JoinApprovalService joinApprovalService) {
         this.registerActivityService = registerActivityService;
         this.commonService = commonService;
         this.messageSource = messageSource;
+        this.joinApprovalService = joinApprovalService;
     }
 
     @GetMapping

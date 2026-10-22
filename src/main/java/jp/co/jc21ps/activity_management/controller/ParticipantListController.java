@@ -44,9 +44,11 @@ public class ParticipantListController {
             return mav;
         }
 
-        /*
-         * TODO ➊ セッションからuserId, clubIdを取得
-         */
+        SessionDto sessionDto = (SessionDto) 
+        session.getAttribute("sessionDto");  
+
+        String userId = sessionDto.getUserId();
+        String leaderClubId = sessionDto.getClubId();
 
         // セッションが切れた場合、エラー画面に遷移
         if (userId.isEmpty()) {
@@ -54,23 +56,31 @@ public class ParticipantListController {
             return mav;
         }
 
-        /*
-         * ➋TODO dtoに値をセット
-         */
+        ParticipantListDto dto = new ParticipantListDto();
+
+        dto.setActivityId(activityId);
+        dto.setUserId(userId);
 
         try {
-            // ➌TODO participantListServiceのgetParticipantListDataメソッドを呼び出す。
+            ParticipantDto responseDto =
+                participantListService.getParticipantListData(dto);
 
             // 返却用のリスト
             List<ParticipantListForm> responseListForm = new ArrayList<>();
 
-            /*
-             * ➍ TODO responseListFormに値をセット
-             */
+            for (ParticipantListDto dtoData : responseDto.getPariticipantListDto()) {
 
-            /*
-             * ➎ TODO 取得したデータを画面側に渡す。
-             */
+            ParticipantListForm form = new ParticipantListForm();
+
+            form.setActivityId(dtoData.getActivityId());
+            form.setUserId(dtoData.getUserId());
+            form.setActivityName(dtoData.getActivityName());
+            form.setUserName(dtoData.getUserName());
+
+            responseListForm.add(form);
+           }
+            mav.addObject("participantList", responseListForm);
+            mav.addObject("activityName", responseDto.getActivityName());
 
             // messages.propertiesからメッセージを取得
             String resultMessage = messageSource.getMessage("notpariticipant", null, Locale.getDefault());

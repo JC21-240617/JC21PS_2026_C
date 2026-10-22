@@ -45,6 +45,9 @@ public class JoinApprovalController {
         String userId = sessionDto.getUserId();
         String leaderClubId = sessionDto.getClubId();
 
+        System.out.println("userId=" + userId);
+        System.out.println("leaderClubId=" + leaderClubId);
+
         // セッションが切れた場合、エラー画面に遷移
         if (leaderClubId.isEmpty()) {
             mav.setViewName("error");
@@ -122,10 +125,10 @@ public class JoinApprovalController {
 
         try {
             // サービスからdeleteメソッドを呼び出す
-            /*
+             /*
              * TODO ➊ ユーザーを否認する際の処理を完成させる。
              */
-
+            joinApprovalService.deleteRequestInfo(paramDto);
             // deleteに成功した場合、部員登録承認画面に遷移
             mav.addObject("leaderClubId", leaderClubId);
             mav.setViewName("redirect:/joinApproval");
@@ -164,7 +167,9 @@ public class JoinApprovalController {
             /*
              * TODO ➋ ユーザーを承認する際の処理を完成させる。
              */
-
+            // 部員テーブルに登録し、申請テーブルから削除する
+            joinApprovalService.insertRequestInfo(paramDto);
+            joinApprovalService.deleteRequestInfo(paramDto);
             // insert, deleteに成功した場合、部員登録承認画面に遷移
             mav.addObject("leaderClubId", leaderClubId);
             mav.setViewName("redirect:/joinApproval");

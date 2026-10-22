@@ -115,6 +115,7 @@ public class ClubInfoRegisterController {
             // messages.propertiesからメッセージを取得
             String resultMessage = messageSource.getMessage(result, null, Locale.getDefault());
 
+
             /*
              * TODO ➌ resultの取得結果に応じて、遷移先を変更する。
              */
@@ -128,8 +129,7 @@ public class ClubInfoRegisterController {
         // 更新に失敗した場合、エラー画面に遷移 
         mav.setViewName("error"); 
     } 
-
-        } catch (Exception e) {
+       } catch (Exception e) {
             // DB接続失敗した場合、エラー画面に遷移
             mav.setViewName("error");
         }
